@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-const cors = require('cors');
 const { Server } = require('socket.io');
 
 const activeRooms = new Set();
@@ -9,15 +8,10 @@ const usersInRooms = {}; // to store users in each room
 const roomDetails = {}; // to store room details like name and owner
 const lockedRooms = new Set();
 
-app.use(cors());
+
 const server = http.createServer(app);
 
-const io = new Server(server, {
-    cors: {
-        origin: 'https://ufp-server.onrender.com',
-        methods: ['GET', 'POST']
-    }
-});
+const io = new Server(server);
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
